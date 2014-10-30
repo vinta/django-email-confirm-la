@@ -1,0 +1,5 @@
+recursive-include email_confirm_la/templates *.html
+recursive-include email_confirm_la/templates *.txt
+include LICENSE
+include README.rst
+include requirements.txt
