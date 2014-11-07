@@ -21,6 +21,7 @@ in your ``settings.py``:
         ...
     )
 
+    DEFAULT_FROM_EMAIL = 'hello@your-domain.com'
     EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'http'
     EMAIL_CONFIRM_LA_DOMAIN = 'your-domain.com'
 
