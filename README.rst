@@ -38,9 +38,9 @@ then run
 
 .. code-block:: bash
 
-    $ python manage.py syncdb
+    $ python manage.py syncdb # (Django < 1.7 only)
 
-    # or if you use south (you should)
+    # or if you use Django >= 1.7 or south
     $ python manage.py migrate
 
 Models
