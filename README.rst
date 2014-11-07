@@ -24,6 +24,8 @@ in your ``settings.py``:
     EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'http'
     EMAIL_CONFIRM_LA_DOMAIN = 'your-domain.com'
 
+(If you are not using the [sites framework](https://docs.djangoproject.com/en/dev/ref/contrib/sites/), then EMAIL_CONFIRM_LA_DOMAIN can be omitted and Site.objects.get_current().domain will be used.)
+
 in your ``urls.py``:
 
 .. code-block:: python
