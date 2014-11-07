@@ -21,8 +21,8 @@ in your ``settings.py``:
         ...
     )
 
-    EMAIL_CONFIRMATION_LA_HTTP_PROTOCOL = 'http'
-    EMAIL_CONFIRMATION_LA_DOMAIN = 'your-domain.com'
+    EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'http'
+    EMAIL_CONFIRM_LA_DOMAIN = 'your-domain.com'
 
 in your ``urls.py``:
 
