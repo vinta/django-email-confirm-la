@@ -23,10 +23,6 @@ from email_confirm_la.conf import settings
 from email_confirm_la.exceptions import EmailConfirmationExpired
 
 
-import logging
-logger = logging.getLogger(name='log_to_console')
-
-
 class EmailConfirmationManager(models.Manager):
 
     def set_email_for_object(self, email, content_object, email_field_name='email', is_primary=True, skip_verify=False, template_context=None):
@@ -55,13 +51,10 @@ class EmailConfirmationManager(models.Manager):
 
         if is_primary:
             confirmation = confirmation.set_primary()
-            logger.error('confirmation.is_primary: %s' % (confirmation.is_primary))
 
         if skip_verify:
             confirmation.is_verified = True
             confirmation.save(update_fields=['is_verified', ])
-
-        logger.error('confirmation.is_verified: %s' % (confirmation.is_verified))
 
         if confirmation.is_verified and confirmation.is_primary and settings.EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE:
             confirmation.save_email()
