@@ -1,0 +1,34 @@
+language: python
+
+python:
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+
+env:
+ - DJANGO_VERSION=1.4.16
+ - DJANGO_VERSION=1.5.11
+ - DJANGO_VERSION=1.6.8
+ - DJANGO_VERSION=1.7.1
+
+matrix:
+  exclude:
+    - python: "3.3"
+      env: DJANGO_VERSION=1.4.16
+    - python: "3.4"
+      env: DJANGO_VERSION=1.4.16
+
+install:
+  - pip install -r requirements_test.txt --use-mirrors
+  - pip install django==$DJANGO_VERSION --use-mirrors
+
+script:
+  - coverage run setup.py test
+
+after_success:
+  - coveralls
+
+notifications:
+  email:
+    - vinta.chen@gmail.com

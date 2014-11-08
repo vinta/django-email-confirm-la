@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = email_confirm_la
+omit =
+    email_confirm_la/migrations/*
+    email_confirm_la/south_migrations/*
+    email_confirm_la/tests/*

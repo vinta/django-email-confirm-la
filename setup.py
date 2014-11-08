@@ -24,7 +24,7 @@ setup(
     version=version,
     description='Django email confirmation for any Model and any Field.',
     long_description=long_description,
-    keywords='django, email, confirm, confirmation, content type',
+    keywords=('django', 'email', 'mail', 'confirm', 'confirmation', 'content type'),
     author='Vinta Chen',
     author_email='vinta.chen@gmail.com',
     url='https://github.com/vinta/django-email-confirm-la',
@@ -32,6 +32,7 @@ setup(
     install_requires=install_requires,
     include_package_data=True,
     packages=find_packages(),
+    test_suite='run_tests.main',
     zip_safe=False,
     classifiers=(
         'Development Status :: 3 - Alpha',
