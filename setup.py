@@ -12,7 +12,7 @@ if sys.argv[-1] == 'publish':
 
 version = __import__('email_confirm_la').get_version()
 
-long_description = open('README.rst').read()
+long_description = open('README.rst').read() + '\n\n' + open('HISTORY.rst').read()
 
 license = open('LICENSE').read()
 
@@ -24,7 +24,7 @@ setup(
     version=version,
     description='Django email confirmation for any Model and any Field.',
     long_description=long_description,
-    keywords='django,email,confirm,confirmation',
+    keywords='django, email, confirm, confirmation, content type',
     author='Vinta Chen',
     author_email='vinta.chen@gmail.com',
     url='https://github.com/vinta/django-email-confirm-la',
