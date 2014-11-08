@@ -3,8 +3,14 @@ django-email-confirm-la
 
 Django email confirmation for any Model and any Field.
 
-Install
-=======
+Requirements
+============
+
+- Python (2.7+)
+- Django (1.6, 1.7)
+
+Installation
+============
 
 .. code-block:: bash
 
@@ -25,7 +31,7 @@ in your ``settings.py``:
     EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'http'
     EMAIL_CONFIRM_LA_DOMAIN = 'your-domain.com'
 
-(If you are not using the [sites framework](https://docs.djangoproject.com/en/dev/ref/contrib/sites/), then EMAIL_CONFIRM_LA_DOMAIN can be omitted and Site.objects.get_current().domain will be used.)
+If you are using the `sites <https://docs.djangoproject.com/en/dev/ref/contrib/sites/>`_ framework, then ``EMAIL_CONFIRM_LA_DOMAIN`` can be omitted and ``Site.objects.get_current().domain`` will be used.
 
 in your ``urls.py``:
 
@@ -41,9 +47,7 @@ then run
 
 .. code-block:: bash
 
-    $ python manage.py syncdb # (Django < 1.7 only)
-
-    # or if you use Django >= 1.7 or south
+    $ python manage.py syncdb
     $ python manage.py migrate
 
 Models
