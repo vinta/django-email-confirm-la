@@ -19,6 +19,7 @@ from django.utils.translation import pgettext_lazy as _
 
 from email_confirm_la import signals
 from email_confirm_la import utils
+from email_confirm_la.compat import update_fields
 from email_confirm_la.conf import settings
 from email_confirm_la.exceptions import EmailConfirmationExpired
 
@@ -54,7 +55,8 @@ class EmailConfirmationManager(models.Manager):
 
         if skip_verify:
             confirmation.is_verified = True
-            confirmation.save(update_fields=['is_verified', ])
+            # confirmation.save(update_fields=['is_verified', ])
+            update_fields(confirmation, fields=('is_verified', ))
 
         if confirmation.is_verified and confirmation.is_primary and settings.EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE:
             confirmation.save_email()
@@ -103,10 +105,12 @@ class EmailConfirmation(models.Model):
         else:
             if old_primary != self:
                 old_primary.is_primary = False
-                old_primary.save(update_fields=['is_primary', ])
+                # old_primary.save(update_fields=['is_primary', ])
+                update_fields(old_primary, fields=('is_primary', ))
 
         self.is_primary = True
-        self.save(update_fields=['is_primary', ])
+        # self.save(update_fields=['is_primary', ])
+        update_fields(self, fields=('is_primary', ))
 
         return self
 
@@ -141,7 +145,8 @@ class EmailConfirmation(models.Model):
         message.send()
 
         self.send_at = timezone.now()
-        self.save(update_fields=['send_at', ])
+        # self.save(update_fields=['send_at', ])
+        update_fields(self, fields=('send_at', ))
 
         signals.post_email_confirmation_send.send(
             sender=self.__class__,
@@ -159,7 +164,8 @@ class EmailConfirmation(models.Model):
         email = self.email
 
         setattr(content_object, email_field_name, email)
-        content_object.save(update_fields=[email_field_name, ])
+        # content_object.save(update_fields=[email_field_name, ])
+        update_fields(content_object, fields=(email_field_name, ))
 
         signals.post_email_save.send(
             sender=self.__class__,
@@ -174,7 +180,8 @@ class EmailConfirmation(models.Model):
                 with transaction.atomic():
                     self.is_verified = True
                     self.confirmed_at = timezone.now()
-                    self.save(update_fields=['is_verified', 'confirmed_at', ])
+                    # self.save(update_fields=['is_verified', 'confirmed_at'])
+                    update_fields(self, fields=('is_verified', 'confirmed_at'))
 
                     signals.post_email_confirm.send(
                         sender=self.__class__,
