@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from django.conf import settings
+from django.db import transaction
 import django
 
 
@@ -23,5 +24,10 @@ else:
     update_fields = lambda instance, fields: instance.save()
 
     from django.contrib.auth.models import User
+
+transaction_atomic = getattr(transaction, 'atomic', 'commit_on_success')
+
+if django.VERSION < (1, 6):
+    transaction.atomic = transaction.commit_on_success
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')

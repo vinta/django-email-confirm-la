@@ -12,14 +12,14 @@ except ImportError:
 from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
-from django.db import models, transaction
+from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import pgettext_lazy as _
 
 from email_confirm_la import signals
 from email_confirm_la import utils
-from email_confirm_la.compat import update_fields
+from email_confirm_la.compat import update_fields, transaction
 from email_confirm_la.conf import settings
 from email_confirm_la.exceptions import EmailConfirmationExpired
 
@@ -114,15 +114,19 @@ class EmailConfirmation(models.Model):
 
         return self
 
-    def get_confirmation_url(self, request=None):
-        # TODO: use request.build_absolute_uri()
+    def get_confirmation_url(self, full=True, request=None):
         url_reverse_name = settings.EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME
         url = reverse(url_reverse_name, kwargs={'confirmation_key': self.confirmation_key})
-        final_url = '%s://%s%s' % (
-            settings.EMAIL_CONFIRM_LA_HTTP_PROTOCOL,
-            settings.EMAIL_CONFIRM_LA_DOMAIN,
-            url,
-        )
+
+        if full:
+            # TODO: use request.build_absolute_uri()
+            final_url = '%s://%s%s' % (
+                settings.EMAIL_CONFIRM_LA_HTTP_PROTOCOL,
+                settings.EMAIL_CONFIRM_LA_DOMAIN,
+                url,
+            )
+        else:
+            final_url = url
 
         return final_url
 
