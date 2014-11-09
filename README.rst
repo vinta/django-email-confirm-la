@@ -92,8 +92,8 @@ assumed you have a model:
 
     class YourModel(models.Model):
         ...
-        user_support_email = models.EmailField(max_length=255)
-        marketing_email = models.EmailField(max_length=255)
+        customer_support_email = models.EmailField(max_length=255, null=True, blank=True)
+        marketing_email = models.EmailField(max_length=255, null=True, blank=True)
         ...
 
 and you want to confirm some emails:
@@ -108,7 +108,7 @@ and you want to confirm some emails:
     email_confirmation = EmailConfirmation.objects.set_email_for_object(
         email='marvin@therestaurantattheendoftheuniverse.com',
         content_object=some_model_instance,
-        email_field_name='user_support_email'
+        email_field_name='customer_support_email'
     )
 
     email_confirmation = EmailConfirmation.objects.set_email_for_object(
@@ -157,3 +157,11 @@ Default values of app settings:
     EMAIL_CONFIRM_LA_CONFIRM_EXPIRE_SEC = 60 * 60 * 24 * 1  # 1 day
     EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME = 'confirm_email'
     EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE = True
+
+Run Tests
+=========
+
+.. code-block:: bash
+
+    $ pip install -r requirements_test.txt
+    $ python setup.py test

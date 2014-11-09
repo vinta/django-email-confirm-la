@@ -4,21 +4,11 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.core import mail
-from django.test import TestCase
 
 from email_confirm_la.models import EmailConfirmation
 
-# from .utils import get_user_model
-# user_model_class = get_user_model()
-
-
-class BaseTestCase(TestCase):
-    # urls = 'test_project.test_project.urls'
-    urls = 'email_confirm_la.tests.urls'
-
-
-class ModelTest(BaseTestCase):
-    pass
+from .base import BaseTestCase
+from test_app.models import YourModel
 
 
 class ManagerTest(BaseTestCase):
@@ -26,8 +16,13 @@ class ManagerTest(BaseTestCase):
     def setUp(self):
         self.user_obj = User.objects.create_user(username='kiko_mizuhara')
         self.user_email = 'kiko.mizuhara@gmail.com'
+        self.user_email_2 = 'kiko.mizuhara@yahoo.com'
 
-    def test_set_email_for_object_for_user_model(self):
+        self.your_obj = YourModel.objects.create()
+        self.your_customer_support_email = 'marvin@therestaurantattheendoftheuniverse.com'
+        self.your_marketing_email = 'arthur@therestaurantattheendoftheuniverse.com'
+
+    def test_set_email_for_object_with_user_model(self):
         confirmation = EmailConfirmation.objects.set_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,
@@ -40,12 +35,67 @@ class ManagerTest(BaseTestCase):
         self.assertFalse(confirmation.is_verified)
 
         mail_obj = mail.outbox[0]
+
         self.assertIn(confirmation.confirmation_key, mail_obj.body)
         self.assertIn(self.user_email, mail_obj.body)
 
-    def test_set_email_for_object_for_some_model(self):
-        pass
+        confirmation.confirm()
 
+        self.assertTrue(confirmation.is_verified)
+        self.assertEqual(self.user_obj.email, self.user_email)
 
-class TemplateTest(BaseTestCase):
-    pass
+    def test_set_email_for_object_with_some_model(self):
+        confirmation = EmailConfirmation.objects.set_email_for_object(
+            email=self.your_customer_support_email,
+            content_object=self.your_obj,
+            email_field_name='customer_support_email'
+        )
+
+        self.assertEqual(confirmation.content_object, self.your_obj)
+        self.assertEqual(confirmation.email, self.your_customer_support_email)
+        self.assertEqual(confirmation.email_field_name, 'customer_support_email')
+
+        mail_obj = mail.outbox[0]
+
+        self.assertIn(confirmation.confirmation_key, mail_obj.body)
+        self.assertIn(self.your_customer_support_email, mail_obj.body)
+
+        confirmation.confirm()
+
+        self.assertTrue(confirmation.is_verified)
+        self.assertEqual(getattr(self.your_obj, 'customer_support_email'), self.your_customer_support_email)
+
+    def test_set_email_for_object_with_is_primary(self):
+        kwargs = {
+            'content_object': self.user_obj,
+            'email_field_name': 'email',
+        }
+
+        EmailConfirmation.objects.set_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+            is_primary=True
+        )
+
+        self.assertEqual(EmailConfirmation.objects.get_primary_for_object(**kwargs).email, self.user_email)
+
+        EmailConfirmation.objects.set_email_for_object(
+            email=self.user_email_2,
+            content_object=self.user_obj,
+            is_primary=True
+        )
+
+        self.assertEqual(EmailConfirmation.objects.get_primary_for_object(**kwargs).email, self.user_email_2)
+
+        self.assertEqual(EmailConfirmation.objects.get_queryset_for_object(**kwargs).count(), 2)
+
+    def test_set_email_for_object_with_skip_verify(self):
+        confirmation = EmailConfirmation.objects.set_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+            skip_verify=True
+        )
+
+        self.assertTrue(confirmation.is_verified)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(self.user_obj.email, self.user_email)

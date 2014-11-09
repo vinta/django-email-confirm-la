@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import datetime
 
 try:
-    # for Django 1.7+
+    # Django 1.7+ compatibility
     from django.contrib.contenttypes.fields import GenericForeignKey
 except ImportError:
     from django.contrib.contenttypes.generic import GenericForeignKey

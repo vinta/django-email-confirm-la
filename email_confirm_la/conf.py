@@ -5,8 +5,6 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-# TODO: Django 1.7 AppConfig
-# https://docs.djangoproject.com/en/dev/ref/applications/
 from appconf import AppConf
 
 
