@@ -4,10 +4,15 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.core import mail
+from django.core.management import call_command
+from django.utils import timezone
 
-from email_confirm_la.models import EmailConfirmation
+from freezegun import freeze_time
+from model_mommy import mommy
 
 from .base import BaseTestCase
+from email_confirm_la.exceptions import EmailConfirmationExpired
+from email_confirm_la.models import EmailConfirmation
 from test_app.models import YourModel
 
 
@@ -99,3 +104,46 @@ class ManagerTest(BaseTestCase):
         self.assertTrue(confirmation.is_verified)
         self.assertEqual(len(mail.outbox), 0)
         self.assertEqual(self.user_obj.email, self.user_email)
+
+
+class ModelTest(BaseTestCase):
+
+    def setUp(self):
+        self.user_obj = User.objects.create_user(username='kiko_mizuhara')
+        self.user_email = 'kiko.mizuhara@gmail.com'
+        self.user_email_2 = 'kiko.mizuhara@yahoo.com'
+
+    def test_confirm(self):
+        confirmation = EmailConfirmation.objects.set_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+        )
+
+        with freeze_time("3000-01-01"):
+            with self.assertRaises(EmailConfirmationExpired):
+                confirmation.confirm()
+
+
+class CommandTest(BaseTestCase):
+
+    def test_clear_expired_email_confirmations(self):
+        mommy.make(
+            'email_confirm_la.EmailConfirmation',
+            _quantity=1,
+            is_verified=False,
+            send_at=timezone.now()
+        )
+
+        mommy.make(
+            'email_confirm_la.EmailConfirmation',
+            _quantity=1,
+            is_verified=True,
+            send_at=timezone.now()
+        )
+
+        self.assertEqual(EmailConfirmation.objects.all().count(), 2)
+
+        with freeze_time("3000-01-01"):
+            call_command('clear_expired_email_confirmations')
+
+            self.assertEqual(EmailConfirmation.objects.all().count(), 1)
