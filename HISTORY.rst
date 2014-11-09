@@ -1,9 +1,10 @@
 History
 =======
 
-0.2.1 (2014-00-00)
+0.2.1 (2014-11-09)
 ++++++++++++++++++
 
+- Django 1.6 compatibility: ``transaction.atomic``
 - Django 1.4 compatibility: ``update_fields``
 
 
