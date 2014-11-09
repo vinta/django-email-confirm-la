@@ -6,5 +6,4 @@ from django.test import TestCase
 
 
 class BaseTestCase(TestCase):
-    # urls = 'test_project.test_project.urls'
-    urls = 'email_confirm_la.tests.urls'
+    urls = 'test_project.urls'
