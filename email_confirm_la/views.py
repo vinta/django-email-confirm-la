@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 
 from email_confirm_la.models import EmailConfirmation
@@ -15,7 +15,9 @@ def confirm_email(request, confirmation_key):
         # TODO: show a email confirm fail page
         raise Http404
 
-    email_confirmation.confirm()
+    response = email_confirmation.confirm(request)
+    if response:
+        return response
 
     context = {
         'email_confirmation': email_confirmation,

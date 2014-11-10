@@ -138,6 +138,23 @@ you can do something like:
 
         do_stuff()
 
+You shoud expect that the ``post_email_confirm`` signal may be sent more than once if the user clicks on the confirmation link more than once (possibly by accident). This is by design so that the correct HttpResponse can be given in those cases (see next paragraph).
+
+The ``post_email_confirm`` signal handler will also recieve the HttpRequest object as a keyword argument (which allows you to set messages, for instance) and can return an HttpResponse to override the default behavior of showing a simple success page. For example:
+
+.. code-block:: python
+
+    from django.contrib import messages
+    from django.http import HttpResponseRedirect
+
+    @receiver(post_email_confirm)
+    def post_email_confirm_callback(sender, confirmation, request=None, **kwargs):
+        ...
+        messages.add_message(request, messages.SUCCESS, 'You are confirmed.')
+        return HttpResponseRedirect(model_instace.get_absolute_url())
+
+If multiple handlers are registered to receive the signal, the first to return a value besides None will determine the response sent to the user. 
+
 Commands
 ========
 
