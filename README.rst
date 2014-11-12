@@ -29,7 +29,9 @@ Installation
     $ pip install django-email-confirm-la
 
 
-In your ``settings.py`` add the ``email_confirm_la`` app (put it *after* your apps) and set the required settings:
+In your ``settings.py``:
+
+Add the ``email_confirm_la`` app (put it *after* your apps) and set the required settings:
 
 .. code-block:: python
 
@@ -45,7 +47,7 @@ In your ``settings.py`` add the ``email_confirm_la`` app (put it *after* your ap
 
 If you are using the `sites <https://docs.djangoproject.com/en/dev/ref/contrib/sites/>`_ framework, then ``EMAIL_CONFIRM_LA_DOMAIN`` can be omitted and ``Site.objects.get_current().domain`` will be used.
 
-in your ``urls.py``:
+In your ``urls.py``:
 
 .. code-block:: python
 
@@ -84,7 +86,7 @@ For User Model
 For Any Model And Any Field
 ===========================
 
-assumed you have a model:
+Assumed you have a model:
 
 .. code-block:: python
 
@@ -96,7 +98,7 @@ assumed you have a model:
         marketing_email = models.EmailField(max_length=255, null=True, blank=True)
         ...
 
-and you want to confirm some emails:
+And you want to confirm some emails:
 
 .. code-block:: python
 
@@ -124,7 +126,7 @@ Signals
 - ``post_email_confirm``
 - ``post_email_save``
 
-you can do something like:
+In your ``models.py``:
 
 .. code-block:: python
 
@@ -156,11 +158,11 @@ Then copy the templates into your app:
 
 .. code-block:: bash
 
-    cp -R django-email-confirm-la/email_confirm_la/templates/email_confirm_la your_app/templates/email_confirm_la
+    $ cp -R django-email-confirm-la/email_confirm_la/templates/email_confirm_la your_app/templates/email_confirm_la
 
 Finally, modify them:
 
-* ``email_confirmation_subject.txt``: Produces the subject line of the email.
+* ``email/email_confirmation_subject.txt``: Produces the subject line of the email.
 * ``email/email_confirmation_message.html``: The HTML body of the email.
 * ``email_confirm_success.html``: What the user sees after clicking a confirmation link (on success).
 * ``email_confirm_fail.html:`` What the user sees after clicking a confirmation link that has expired or is invalid.
