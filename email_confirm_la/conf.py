@@ -11,7 +11,7 @@ from appconf import AppConf
 class ECLAAppConf(AppConf):
     EMAIL_BACKEND = settings.EMAIL_BACKEND
     HTTP_PROTOCOL = 'http'
-    DOMAIN = 'example.com'
+    DOMAIN = ''
     CONFIRM_EXPIRE_SEC = 60 * 60 * 24 * 1  # 1 day
     CONFIRM_URL_REVERSE_NAME = 'confirm_email'
     SAVE_EMAIL_TO_INSTANCE = True
