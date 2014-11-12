@@ -12,7 +12,7 @@ if sys.argv[-1] == 'publish':
 
 version = __import__('email_confirm_la').get_version()
 
-long_description = open('README.rst').read() + '\n\n' + open('HISTORY.rst').read()
+long_description = open('README.rst').read() + '\n\n' + open('CHANGES.rst').read()
 
 license = open('LICENSE').read()
 

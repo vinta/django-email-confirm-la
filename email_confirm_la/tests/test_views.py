@@ -6,9 +6,8 @@ from django.contrib.auth.models import User
 from django.core import mail
 from django.test.utils import override_settings
 
-from email_confirm_la.models import EmailConfirmation
-
 from .base import BaseTestCase
+from email_confirm_la.models import EmailConfirmation
 
 
 class ViewTest(BaseTestCase):
