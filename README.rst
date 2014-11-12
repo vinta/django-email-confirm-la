@@ -29,7 +29,7 @@ Installation
     $ pip install django-email-confirm-la
 
 
-in your ``settings.py``:
+In your ``settings.py`` add the ``email_confirm_la`` app (put it *after* your apps) and set the required settings:
 
 .. code-block:: python
 
@@ -144,6 +144,26 @@ Commands
 .. code-block:: bash
 
     $ python manage.py clear_expired_email_confirmations
+
+Templates
+=========
+
+You will want to override the project's email text and confirmation page.
+
+Ensure the ``email_confirm_la`` app in ``INSTALLED_APPS`` is after the app that you will place the customized templates in so that the `django.template.loaders.app_directories.Loader <https://docs.djangoproject.com/en/dev/ref/templates/api/#django.template.loaders.app_directories.Loader>`_ finds *your* templates before the default templates.
+
+Then copy the templates into your app:
+
+.. code-block:: bash
+
+    cp -R django-email-confirm-la/email_confirm_la/templates/email_confirm_la your_app/templates/email_confirm_la
+
+Finally, modify them:
+
+* ``email_confirmation_subject.txt``: Produces the subject line of the email.
+* ``email/email_confirmation_message.html``: The HTML body of the email.
+* ``email_confirm_success.html``: What the user sees after clicking a confirmation link (on success).
+* ``email_confirm_fail.html:`` What the user sees after clicking a confirmation link that has expired or is invalid.
 
 Settings
 ========
