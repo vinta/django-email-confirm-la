@@ -10,7 +10,7 @@ except ImportError:
     from django.contrib.contenttypes.generic import GenericForeignKey
 
 from django.contrib.contenttypes.models import ContentType
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, get_connection
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.loader import render_to_string
@@ -130,7 +130,7 @@ class EmailConfirmation(models.Model):
 
         return final_url
 
-    def send(self, template_context):
+    def send(self, template_context=None):
         default_template_context = {
             'email': self.email,
             'confirmation_key': self.confirmation_key,
@@ -144,9 +144,14 @@ class EmailConfirmation(models.Model):
         subject = render_to_string('email_confirm_la/email/email_confirmation_subject.txt', template_context)
         subject = ''.join(subject.splitlines())  # remove superfluous line breaks
         body = render_to_string('email_confirm_la/email/email_confirmation_message.html', template_context)
+
         message = EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, [self.email, ])
         message.content_subtype = 'html'
-        message.send()
+        # message.send()
+
+        # TODO: send mass emails?
+        connection = get_connection(settings.EMAIL_CONFIRM_LA_EMAIL_BACKEND)
+        connection.send_messages([message, ])
 
         self.send_at = timezone.now()
         # self.save(update_fields=['send_at', ])

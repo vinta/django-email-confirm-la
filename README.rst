@@ -174,8 +174,9 @@ Default values of app settings:
 
 .. code-block:: python
 
+    EMAIL_CONFIRM_LA_EMAIL_BACKEND = settings.EMAIL_BACKEND
     EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'http'
-    EMAIL_CONFIRM_LA_DOMAIN = ''
+    EMAIL_CONFIRM_LA_DOMAIN = ''  # remember to override this setting!
     EMAIL_CONFIRM_LA_CONFIRM_EXPIRE_SEC = 60 * 60 * 24 * 1  # 1 day
     EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME = 'confirm_email'
     EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE = True
