@@ -1,5 +1,4 @@
 -r requirements.txt
 coveralls
 freezegun
-ipdb
 model_mommy
