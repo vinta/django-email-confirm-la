@@ -39,4 +39,3 @@ class AdminTest(BaseTestCase):
 
         self.assertIn('email_field_name', ecla_form.base_fields.keys())
         self.assertIn('email', ecla_form.base_fields.keys())
-        self.assertTrue(ecla_admin.get_queryset(request))
