@@ -6,7 +6,7 @@ Changes
 
 - New admin action: Re-send confirmation email
 - New setting: ``EMAIL_CONFIRM_LA_EMAIL_BACKEND``
-- Change ``EMAIL_CONFIRM_LA_DOMAIN`` default value to '', fail fast
+- Change ``EMAIL_CONFIRM_LA_DOMAIN`` default value to ``''``, fail fast
 - Fix circular import
 
 
