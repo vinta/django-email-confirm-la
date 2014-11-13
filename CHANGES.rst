@@ -4,6 +4,9 @@ Changes
 0.2.2 (2014-11-13)
 ++++++++++++++++++
 
+- New admin action: Re-send confirmation email
+- New setting: ``EMAIL_CONFIRM_LA_EMAIL_BACKEND``
+- Change ``EMAIL_CONFIRM_LA_DOMAIN`` default value to '', fail fast
 - Fix circular import
 
 
