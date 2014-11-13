@@ -138,7 +138,7 @@ In your ``models.py``:
         model_instace = confirmation.content_object
         email = confirmation.email
 
-        do_stuff()
+        do_your_stuff()
 
 Commands
 ========

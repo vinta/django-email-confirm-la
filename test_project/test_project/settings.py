@@ -88,4 +88,5 @@ STATIC_URL = '/static/'
 # django-email-confirm-la
 # https://github.com/vinta/django-email-confirm-la
 
+EMAIL_CONFIRM_LA_EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'  # fix test fail in Django 1.7
 EMAIL_CONFIRM_LA_DOMAIN = 'example.com'
