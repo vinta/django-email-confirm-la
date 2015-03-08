@@ -1,6 +1,12 @@
 Changes
 =======
 
+0.2.3 (2015-03-08)
+++++++++++++++++++
+
+- Fix `#14 <https://github.com/vinta/django-email-confirm-la/issues/14>`_ Admin raises an `AttributeError` when `content_object` doesn't exist
+
+
 0.2.2 (2014-11-13)
 ++++++++++++++++++
 
