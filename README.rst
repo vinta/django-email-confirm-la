@@ -91,12 +91,17 @@ Assumed you have a model:
 .. code-block:: python
 
     from django.db import models
+    from django.contrib.contenttypes.fields import GenericRelation  # Django 1.7+
+    from django.contrib.contenttypes.generic import GenericRelation
 
     class YourModel(models.Model):
         ...
         customer_support_email = models.EmailField(max_length=255, null=True, blank=True)
         marketing_email = models.EmailField(max_length=255, null=True, blank=True)
         ...
+
+        # optional, but recommended when you want to perform cascade-deletions
+        email_confirmations = GenericRelation('email_confirm_la.EmailConfirmation', content_type_field='content_type', object_id_field='object_id')
 
 And you want to confirm some emails:
 
