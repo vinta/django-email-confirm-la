@@ -92,7 +92,7 @@ class EmailConfirmation(models.Model):
     class Meta:
         verbose_name = _('ec_la', 'Email confirmation')
         verbose_name_plural = _('ec_la', 'Email confirmation')
-        unique_together = (('content_type', 'email_field_name', 'email'), )
+        unique_together = (('content_type', 'email_field_name', 'object_id', 'email'), )
 
     def __unicode__(self):
         return 'Confirmation for %s' % self.email
