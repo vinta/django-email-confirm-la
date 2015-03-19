@@ -200,4 +200,11 @@ class EmailConfirmation(models.Model):
                     if self.is_primary and settings.EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE:
                         self.save_email()
 
+                    # Expire all other confirmations for the same email
+                    reverse_expiry = timezone.now() - datetime.timedelta(seconds=settings.EMAIL_CONFIRM_LA_CONFIRM_EXPIRE_SEC)
+                    EmailConfirmation.objects.filter(
+                        content_type=self.content_type,
+                        email_field_name=self.email_field_name,
+                        email=self.email).exclude(pk=self.pk).update(send_at=reverse_expiry)
+
         return self
