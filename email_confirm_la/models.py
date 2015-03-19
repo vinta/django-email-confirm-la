@@ -181,23 +181,39 @@ class EmailConfirmation(models.Model):
             confirmation=self,
         )
 
-    def confirm(self):
-        if self.is_expired():
-            raise EmailConfirmationExpired()
+    def confirm(self, request):
+        if not self.is_verified:
+            if self.is_expired():
+                raise EmailConfirmationExpired()
+            with transaction.atomic():
+                self.is_verified = True
+                self.confirmed_at = timezone.now()
+                # self.save(update_fields=['is_verified', 'confirmed_at'])
+                update_fields(self, fields=('is_verified', 'confirmed_at'))
+
+                signal_responses = signals.post_email_confirm.send(
+                    sender=self.__class__,
+                    confirmation=self,
+                    request=request,
+                )
+
+                if self.is_primary and settings.EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE:
+                    self.save_email()
+
         else:
-            if not self.is_verified:
-                with transaction.atomic():
-                    self.is_verified = True
-                    self.confirmed_at = timezone.now()
-                    # self.save(update_fields=['is_verified', 'confirmed_at'])
-                    update_fields(self, fields=('is_verified', 'confirmed_at'))
+            # This email confirmation is already verified, but the user may
+            # click the link twice (by accident?). The response should still
+            # be helpful. Re-issue the signal.
+            signal_responses = signals.post_email_confirm.send(
+                sender=self.__class__,
+                confirmation=self,
+                request=request,
+            )
 
-                    signals.post_email_confirm.send(
-                        sender=self.__class__,
-                        confirmation=self,
-                    )
+        # signal.send() returns a list of tuples of the receiver and the
+        # returned value from that receiver.
+        for reciver, response in signal_responses:
+            if response is not None:
+                return response
 
-                    if self.is_primary and settings.EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE:
-                        self.save_email()
-
-        return self
+        return None
