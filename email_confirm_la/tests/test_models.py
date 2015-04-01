@@ -20,14 +20,13 @@ class ManagerTest(BaseTestCase):
 
     def setUp(self):
         self.user_obj = User.objects.create_user(username='kiko_mizuhara')
+        self.user_obj_2 = User.objects.create_user(username='odyx')
         self.user_email = 'kiko.mizuhara@gmail.com'
         self.user_email_2 = 'kiko.mizuhara@yahoo.com'
 
         self.your_obj = YourModel.objects.create()
         self.your_customer_support_email = 'marvin@therestaurantattheendoftheuniverse.com'
         self.your_marketing_email = 'arthur@therestaurantattheendoftheuniverse.com'
-        
-        self.user2_obj = User.objects.create_user(username='odyx')
 
     def test_set_email_for_object_with_user_model(self):
         confirmation = EmailConfirmation.objects.set_email_for_object(
@@ -107,17 +106,29 @@ class ManagerTest(BaseTestCase):
         self.assertEqual(len(mail.outbox), 0)
         self.assertEqual(self.user_obj.email, self.user_email)
 
-    def test_request_email_by_two_users(self):
-        confirmation1 = EmailConfirmation.objects.set_email_for_object(
-            email=self.user_email,
+    def test_request_the_same_email_by_two_users(self):
+        the_same_email = self.user_email
+
+        confirmation_1 = EmailConfirmation.objects.set_email_for_object(
+            email=the_same_email,
             content_object=self.user_obj,
         )
-        confirmation2 = EmailConfirmation.objects.set_email_for_object(
-            email=self.user_email,
-            content_object=self.user2_obj,
+        confirmation_2 = EmailConfirmation.objects.set_email_for_object(
+            email=the_same_email,
+            content_object=self.user_obj_2,
         )
-        self.assertTrue(confirmation1.email, self.user_email)
-        self.assertTrue(confirmation2.email, self.user_email)
+        self.assertTrue(confirmation_1.email, the_same_email)
+        self.assertTrue(confirmation_2.email, the_same_email)
+
+        confirmation_2.confirm()
+
+        self.assertTrue(confirmation_2.is_verified)
+        self.assertEqual(self.user_obj_2.email, the_same_email)
+
+        # refresh
+        confirmation_1 = EmailConfirmation.objects.get(id=confirmation_1.id)
+        with self.assertRaises(EmailConfirmationExpired):
+            confirmation_1.confirm()
 
 
 class ModelTest(BaseTestCase):
