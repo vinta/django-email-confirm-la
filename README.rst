@@ -193,3 +193,8 @@ Run Tests
 
     $ pip install -r requirements_test.txt
     $ python setup.py test
+
+    # or
+
+    $ docker build --rm=true -t djecl .
+    $ docker run --rm=true djecl
