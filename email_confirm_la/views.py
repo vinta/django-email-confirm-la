@@ -2,7 +2,6 @@
 
 from __future__ import unicode_literals
 
-from django.http import Http404
 from django.shortcuts import render
 
 from email_confirm_la.models import EmailConfirmation
