@@ -36,7 +36,7 @@ class ViewTest(BaseTestCase):
         self.assertTrue(confirmation.is_verified)
         self.assertEqual(self.user_obj.email, self.user_email)
 
-    def test_confirm_email_404(self):
+    def test_confirm_email_invalid(self):
         confirmation = EmailConfirmation.objects.set_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,
@@ -47,7 +47,11 @@ class ViewTest(BaseTestCase):
         url = confirmation.get_confirmation_url(full=False)
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'email_confirm_la/email_confirm_fail.html'
+        )
 
     @override_settings(EMAIL_CONFIRM_LA_DOMAIN='vinta.ws')
     def test_custom_domain(self):
