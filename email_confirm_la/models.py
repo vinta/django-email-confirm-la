@@ -55,7 +55,6 @@ class EmailConfirmationManager(models.Manager):
 
         if skip_verify:
             confirmation.is_verified = True
-            # confirmation.save(update_fields=['is_verified', ])
             update_fields(confirmation, fields=('is_verified', ))
 
         if confirmation.is_verified and confirmation.is_primary and settings.EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE:
@@ -105,11 +104,9 @@ class EmailConfirmation(models.Model):
         else:
             if old_primary != self:
                 old_primary.is_primary = False
-                # old_primary.save(update_fields=['is_primary', ])
                 update_fields(old_primary, fields=('is_primary', ))
 
         self.is_primary = True
-        # self.save(update_fields=['is_primary', ])
         update_fields(self, fields=('is_primary', ))
 
         return self
@@ -154,7 +151,6 @@ class EmailConfirmation(models.Model):
         connection.send_messages([message, ])
 
         self.send_at = timezone.now()
-        # self.save(update_fields=['send_at', ])
         update_fields(self, fields=('send_at', ))
 
         signals.post_email_confirmation_send.send(
@@ -173,7 +169,6 @@ class EmailConfirmation(models.Model):
         email = self.email
 
         setattr(content_object, email_field_name, email)
-        # content_object.save(update_fields=[email_field_name, ])
         update_fields(content_object, fields=(email_field_name, ))
 
         signals.post_email_save.send(
@@ -189,7 +184,6 @@ class EmailConfirmation(models.Model):
                 with transaction.atomic():
                     self.is_verified = True
                     self.confirmed_at = timezone.now()
-                    # self.save(update_fields=['is_verified', 'confirmed_at'])
                     update_fields(self, fields=('is_verified', 'confirmed_at'))
 
                     signals.post_email_confirm.send(
@@ -202,9 +196,13 @@ class EmailConfirmation(models.Model):
 
                     # Expire all other confirmations for the same email
                     reverse_expiry = timezone.now() - datetime.timedelta(seconds=settings.EMAIL_CONFIRM_LA_CONFIRM_EXPIRE_SEC)
-                    EmailConfirmation.objects.filter(
-                        content_type=self.content_type,
-                        email_field_name=self.email_field_name,
-                        email=self.email).exclude(pk=self.pk).update(send_at=reverse_expiry)
+                    EmailConfirmation.objects \
+                        .filter(
+                            content_type=self.content_type,
+                            email_field_name=self.email_field_name,
+                            email=self.email
+                        ) \
+                        .exclude(pk=self.pk) \
+                        .update(send_at=reverse_expiry)
 
         return self
