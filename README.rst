@@ -2,15 +2,15 @@ django-email-confirm-la
 =======================
 
 .. image:: http://img.shields.io/travis/vinta/django-email-confirm-la/master.svg?style=flat-square
-    :alt: Build Badge
     :target: https://travis-ci.org/vinta/django-email-confirm-la
 
 .. image:: http://img.shields.io/coveralls/vinta/django-email-confirm-la/master.svg?style=flat-square
-    :alt: Coverage Badge
     :target: https://coveralls.io/r/vinta/django-email-confirm-la
 
+.. image:: https://landscape.io/github/vinta/django-email-confirm-la/master/landscape.svg?style=flat-square
+   :target: https://landscape.io/github/vinta/django-email-confirm-la/master
+
 .. image:: http://img.shields.io/pypi/v/django-email-confirm-la.svg?style=flat-square
-    :alt: Version Badge
     :target: https://pypi.python.org/pypi/django-email-confirm-la
 
 Django email confirmation for any Model and any Field.
