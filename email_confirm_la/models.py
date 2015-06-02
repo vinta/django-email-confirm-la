@@ -28,7 +28,9 @@ class EmailConfirmationManager(models.Manager):
 
     def set_email_for_object(self, email, content_object, email_field_name='email', is_primary=True, skip_verify=False, template_context=None):
         """
-        只有 `is_primary=True` 時，email 才會被 save 到 content_object 的 email_field_name 欄位
+        Add an email for `content_object` and send a confirmation mail by default.
+
+        The email will be directly saved to `content_object.email_field_name` when `is_primary` and `skip_verify` both are true.
         """
 
         content_type = ContentType.objects.get_for_model(content_object)
@@ -57,6 +59,7 @@ class EmailConfirmationManager(models.Manager):
             confirmation.is_verified = True
             update_fields(confirmation, fields=('is_verified', ))
 
+        # TODO: may remove EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE
         if confirmation.is_verified and confirmation.is_primary and settings.EMAIL_CONFIRM_LA_SAVE_EMAIL_TO_INSTANCE:
             confirmation.save_email()
 
