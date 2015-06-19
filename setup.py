@@ -31,7 +31,7 @@ setup(
     license=license,
     install_requires=install_requires,
     include_package_data=True,
-    packages=find_packages(exclude=['test_project', ]),
+    packages=find_packages(exclude=['test_project.*', 'test_project']),
     test_suite='run_tests.main',
     zip_safe=False,
     classifiers=(
