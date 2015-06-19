@@ -15,4 +15,4 @@ class Command(BaseCommand):
                 email_confirmation.delete()
                 count += 1
 
-        print('%s deleted' % count)
+        # print('%s deleted' % count)
