@@ -1,2 +1,2 @@
-django
-django-appconf
+django>=1.4
+django-appconf>=1.0.1
