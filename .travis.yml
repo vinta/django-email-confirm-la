@@ -23,13 +23,14 @@ matrix:
 
 install:
   - pip install -r requirements_test.txt
+  - pip install codecov
   - pip install django==$DJANGO_VERSION
 
 script:
   - coverage run setup.py test
 
 after_success:
-  - coveralls
+  - codecov
 
 notifications:
   email:
