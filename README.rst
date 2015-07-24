@@ -4,8 +4,8 @@ django-email-confirm-la
 .. image:: http://img.shields.io/travis/vinta/django-email-confirm-la/master.svg?style=flat-square
     :target: https://travis-ci.org/vinta/django-email-confirm-la
 
-.. image:: http://img.shields.io/coveralls/vinta/django-email-confirm-la/master.svg?style=flat-square
-    :target: https://coveralls.io/r/vinta/django-email-confirm-la
+.. image:: https://img.shields.io/codecov/c/github/vinta/django-email-confirm-la/master.svg?style=flat-square
+    :target: https://codecov.io/github/vinta/django-email-confirm-la
 
 .. image:: https://landscape.io/github/vinta/django-email-confirm-la/master/landscape.svg?style=flat-square
    :target: https://landscape.io/github/vinta/django-email-confirm-la/master
