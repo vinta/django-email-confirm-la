@@ -1,7 +1,5 @@
 # coding: utf-8
 
-from __future__ import unicode_literals
-
 from django.contrib.auth.models import User
 from django.core import mail
 from django.core.management import call_command
@@ -37,8 +35,6 @@ class ManagerTest(BaseTestCase):
         self.assertEqual(confirmation.content_object, self.user_obj)
         self.assertEqual(confirmation.email, self.user_email)
         self.assertEqual(confirmation.email_field_name, 'email')
-        self.assertTrue(confirmation.is_primary)
-        self.assertFalse(confirmation.is_verified)
 
         mail_obj = mail.outbox[0]
 

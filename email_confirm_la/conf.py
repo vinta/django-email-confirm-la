@@ -1,7 +1,5 @@
 # coding: utf-8
 
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
@@ -14,7 +12,9 @@ class ECLAAppConf(AppConf):
     DOMAIN = ''
     CONFIRM_EXPIRE_SEC = 60 * 60 * 24 * 1  # 1 day
     CONFIRM_URL_REVERSE_NAME = 'confirm_email'
-    SAVE_EMAIL_TO_INSTANCE = True
+
+    # TODO: EMAIL UNIQUE OR NOT
+    # unique_together = (('content_type', 'email_field_name', 'email'), )
 
     class Meta:
         prefix = 'email_confirm_la'
