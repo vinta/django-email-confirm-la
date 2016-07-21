@@ -53,7 +53,7 @@ In your ``urls.py``:
 
     urlpatterns = [
         ...
-        url(r'^email_confirmation/', include('email_confirm_la.urls')),
+        url(r'^email_confirmation/', include('email_confirm_la.urls', namespace='email_confirm_la')),
         ...
     ]
 
