@@ -1,6 +1,14 @@
 Changes
 =======
 
+2.0.0 (2016-07-22)
+++++++++++++++++++
+
+- **v2.0.0 is a BACKWARD-INCOMPATIBLE release!**
+- Full refactoring
+- Drop support for Django 1.4
+
+
 0.2.3 (2015-03-08)
 ++++++++++++++++++
 

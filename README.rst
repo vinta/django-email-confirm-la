@@ -44,6 +44,9 @@ Add the ``email_confirm_la`` app (put it *after* your apps) and set the required
 
     EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'https'
     EMAIL_CONFIRM_LA_DOMAIN = 'vinta.ws'
+    EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT = {
+        'THE_ANSWER': 42,
+    }
 
 If you are using the `sites <https://docs.djangoproject.com/en/dev/ref/contrib/sites/>`_ framework, then ``EMAIL_CONFIRM_LA_DOMAIN`` can be omitted and ``Site.objects.get_current().domain`` will be used.
 
@@ -173,6 +176,7 @@ Default values of app settings:
     EMAIL_CONFIRM_LA_DOMAIN = 'example.com'
     EMAIL_CONFIRM_LA_CONFIRM_EXPIRE_SEC = 60 * 60 * 24 * 1  # 1 day
     EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME = 'email_confirm_la:confirm_email'
+    EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT = {}
 
 Run Tests
 =========
