@@ -1,5 +1,5 @@
 # coding: utf-8
 
 
-class EmailConfirmationExpired(Exception):
+class ExpiredError(Exception):
     pass

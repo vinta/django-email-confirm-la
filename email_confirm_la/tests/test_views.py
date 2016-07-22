@@ -16,26 +16,20 @@ class ViewTest(BaseTestCase):
         self.user_email_2 = 'kiko.mizuhara@yahoo.com'
 
     def test_confirm_email(self):
-        confirmation = EmailConfirmation.objects.set_email_for_object(
+        confirmation = EmailConfirmation.objects.verify_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,
         )
 
-        self.assertFalse(confirmation.is_verified)
-
         url = confirmation.get_confirmation_url(full=False)
         response = self.client.get(url)
-
         self.assertEqual(response.status_code, 200)
 
-        confirmation = EmailConfirmation.objects.get(id=confirmation.id)
         self.user_obj = User.objects.get(id=self.user_obj.id)
-
-        self.assertTrue(confirmation.is_verified)
         self.assertEqual(self.user_obj.email, self.user_email)
 
     def test_confirm_email_invalid(self):
-        confirmation = EmailConfirmation.objects.set_email_for_object(
+        confirmation = EmailConfirmation.objects.verify_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,
         )
@@ -48,12 +42,12 @@ class ViewTest(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
             response,
-            'email_confirm_la/email_confirm_fail.html'
+            'email_confirm_la/email_confirmation_fail.html'
         )
 
     @override_settings(EMAIL_CONFIRM_LA_DOMAIN='vinta.ws')
     def test_custom_domain(self):
-        EmailConfirmation.objects.set_email_for_object(
+        EmailConfirmation.objects.verify_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,
         )
@@ -64,7 +58,7 @@ class ViewTest(BaseTestCase):
 
     @override_settings(EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME='test_app:your_confirm_email')
     def test_custom_confirm_url_reverse_name(self):
-        confirmation = EmailConfirmation.objects.set_email_for_object(
+        confirmation = EmailConfirmation.objects.verify_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,
         )
@@ -80,5 +74,4 @@ class ViewTest(BaseTestCase):
         confirmation = EmailConfirmation.objects.get(id=confirmation.id)
         self.user_obj = User.objects.get(id=self.user_obj.id)
 
-        self.assertTrue(confirmation.is_verified)
         self.assertEqual(self.user_obj.email, self.user_email)

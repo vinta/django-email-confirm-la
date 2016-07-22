@@ -5,6 +5,6 @@ from django.contrib import admin
 urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^email_confirmation/', include('email_confirm_la.urls')),
+    url(r'^email_confirmation/', include('email_confirm_la.urls', namespace='email_confirm_la')),
     url(r'^test_app/', include('test_app.urls', namespace='test_app')),
 )

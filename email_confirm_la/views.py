@@ -3,18 +3,22 @@
 from django.shortcuts import render
 
 from email_confirm_la.models import EmailConfirmation
-from email_confirm_la.exceptions import EmailConfirmationExpired
 
 
 def confirm_email(request, confirmation_key):
     try:
         email_confirmation = EmailConfirmation.objects.get(confirmation_key=confirmation_key)
-        email_confirmation.confirm()
-    except (EmailConfirmation.DoesNotExist, EmailConfirmationExpired):
-        return render(request, 'email_confirm_la/email_confirm_fail.html')
+    except EmailConfirmation.DoesNotExist:
+        return render(request, 'email_confirm_la/email_confirmation_fail.html')
 
     context = {
         'email_confirmation': email_confirmation,
     }
 
-    return render(request, 'email_confirm_la/email_confirm_success.html', context)
+    try:
+        email_confirmation.confirm()
+        email_confirmation.clean()
+    except EmailConfirmation.ExpiredError:
+        return render(request, 'email_confirm_la/email_confirmation_expiration.html', context)
+
+    return render(request, 'email_confirm_la/email_confirmation_success.html', context)
