@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 
 
 if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
+    os.system('python setup.py sdist bdist_wheel upload')
     sys.exit()
 
 version = __import__('email_confirm_la').get_version()
