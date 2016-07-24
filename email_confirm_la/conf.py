@@ -9,6 +9,7 @@ class DefaultConfigs(object):
     EMAIL_CONFIRM_LA_DOMAIN = 'example.com'
     EMAIL_CONFIRM_LA_CONFIRM_EXPIRE_SEC = 60 * 60 * 24 * 1  # 1 day
     EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME = 'email_confirm_la:confirm_email'
+    EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT = {}
 
 
 class Configs(object):

@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 
+from email_confirm_la.conf import configs
 from email_confirm_la.models import EmailConfirmation
 
 
@@ -11,9 +12,8 @@ def confirm_email(request, confirmation_key):
     except EmailConfirmation.DoesNotExist:
         return render(request, 'email_confirm_la/email_confirmation_fail.html')
 
-    context = {
-        'email_confirmation': email_confirmation,
-    }
+    context = dict(configs.EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT)
+    context['email_confirmation'] = email_confirmation
 
     try:
         email_confirmation.confirm()

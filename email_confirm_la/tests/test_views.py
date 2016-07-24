@@ -45,7 +45,7 @@ class ViewTest(BaseTestCase):
             'email_confirm_la/email_confirmation_fail.html'
         )
 
-    @override_settings(EMAIL_CONFIRM_LA_DOMAIN='vinta.ws')
+    @override_settings(EMAIL_CONFIRM_LA_HTTP_PROTOCOL='https', EMAIL_CONFIRM_LA_DOMAIN='vinta.ws')
     def test_custom_domain(self):
         EmailConfirmation.objects.verify_email_for_object(
             email=self.user_email,
@@ -54,7 +54,7 @@ class ViewTest(BaseTestCase):
 
         mail_obj = mail.outbox[0]
 
-        self.assertIn('http://vinta.ws/', mail_obj.body)
+        self.assertIn('https://vinta.ws/', mail_obj.body)
 
     @override_settings(EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME='test_app:your_confirm_email')
     def test_custom_confirm_url_reverse_name(self):
@@ -65,7 +65,7 @@ class ViewTest(BaseTestCase):
 
         url = confirmation.get_confirmation_url(full=False)
 
-        self.assertIn('/test_app/email_confirm/', url)
+        self.assertIn('/test_app/your_confirm_email/', url)
 
         response = self.client.get(url)
 
@@ -75,3 +75,25 @@ class ViewTest(BaseTestCase):
         self.user_obj = User.objects.get(id=self.user_obj.id)
 
         self.assertEqual(self.user_obj.email, self.user_email)
+
+    @override_settings(EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME='test_app:your_confirm_email')
+    def test_custom_template_context_in_email(self):
+        EmailConfirmation.objects.verify_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+        )
+
+        mail_obj = mail.outbox[0]
+
+        self.assertIn('the Answer to the Ultimate Question of Life, the Universe, and Everything: 42.', mail_obj.body)
+
+    def test_custom_template_context_in_view(self):
+        confirmation = EmailConfirmation.objects.verify_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+        )
+
+        url = confirmation.get_confirmation_url(full=False)
+        response = self.client.get(url)
+
+        self.assertContains(response, 'the Answer to the Ultimate Question of Life, the Universe, and Everything: 42.')

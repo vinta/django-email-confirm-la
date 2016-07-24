@@ -109,12 +109,9 @@ class EmailConfirmation(models.Model):
         return 'Confirmation for {0}'.format(self.email)
 
     def send(self, template_context=None):
-        default_template_context = {
-            'email': self.email,
-            'confirmation_key': self.confirmation_key,
-            'confirmation_url': self.get_confirmation_url(),
-            'content_object': self.content_object,
-        }
+        default_template_context = dict(configs.EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT)
+        default_template_context['email_confirmation'] = self
+
         if isinstance(template_context, dict):
             template_context = dict(default_template_context.items() + template_context.items())  # merge dictionaries
         else:
