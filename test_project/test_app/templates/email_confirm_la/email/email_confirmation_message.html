@@ -1,0 +1,6 @@
+<p>Your registered email is {{ email_confirmation.email }}, click the link below to confirm:</p>
+{% with confirmation_url=email_confirmation.get_confirmation_url %}
+<p><a href="{{ confirmation_url }}">{{ confirmation_url }}</a></p>
+{% endwith %}
+
+<p>the Answer to the Ultimate Question of Life, the Universe, and Everything: {{ THE_ANSWER }}.</p>
