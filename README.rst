@@ -7,9 +7,6 @@ django-email-confirm-la
 .. image:: https://img.shields.io/codecov/c/github/vinta/django-email-confirm-la/master.svg?style=flat-square
     :target: https://codecov.io/github/vinta/django-email-confirm-la
 
-.. image:: https://landscape.io/github/vinta/django-email-confirm-la/master/landscape.svg?style=flat-square
-   :target: https://landscape.io/github/vinta/django-email-confirm-la/master
-
 .. image:: http://img.shields.io/pypi/v/django-email-confirm-la.svg?style=flat-square
     :target: https://pypi.python.org/pypi/django-email-confirm-la
 
