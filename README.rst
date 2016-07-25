@@ -123,20 +123,20 @@ Signals
 =======
 
 - ``post_email_confirmation_send``
-- ``post_email_confirm``
-- ``post_email_save``
+- ``post_email_confirmation_confirm``
 
 In your ``models.py``:
 
 .. code-block:: python
 
     from django.dispatch import receiver
-    from email_confirm_la.signals import post_email_confirm
+    from email_confirm_la.signals import post_email_confirmation_confirm
 
-    @receiver(post_email_confirm)
-    def post_email_confirm_callback(sender, confirmation, **kwargs):
+    @receiver(post_email_confirmation_confirm)
+    def post_email_confirmation_confirm_callback(sender, confirmation, **kwargs):
         model_instace = confirmation.content_object
         email = confirmation.email
+        old_email = kwargs['old_email']
 
         do_your_stuff()
 
