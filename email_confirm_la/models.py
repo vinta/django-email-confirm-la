@@ -145,6 +145,8 @@ class EmailConfirmation(models.Model):
         if not ignore_expiration and self.is_expired:
             raise ExpiredError()
 
+        old_email = getattr(self.content_object, self.email_field_name, '')
+
         if save_to_content_object:
             setattr(self.content_object, self.email_field_name, self.email)
             self.content_object.save(update_fields=(self.email_field_name, ))
@@ -153,6 +155,7 @@ class EmailConfirmation(models.Model):
             sender=self.__class__,
             confirmation=self,
             save_to_content_object=save_to_content_object,
+            old_email=old_email,
         )
 
     def clean(self):
