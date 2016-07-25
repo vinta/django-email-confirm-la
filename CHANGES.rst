@@ -1,6 +1,13 @@
 Changes
 =======
 
+2.2.0 (2016-07-25)
+++++++++++++++++++
+
+- Fix migration dependencies
+- New parameter ``old_email`` in `post_email_confirmation_confirm` signal
+
+
 2.1.0 (2016-07-25)
 ++++++++++++++++++
 
