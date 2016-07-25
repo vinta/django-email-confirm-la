@@ -1,6 +1,13 @@
 Changes
 =======
 
+2.1.0 (2016-07-25)
+++++++++++++++++++
+
+- Reset migration
+- Fix ``EmailConfirmationValidator``
+
+
 2.0.0 (2016-07-22)
 ++++++++++++++++++
 
