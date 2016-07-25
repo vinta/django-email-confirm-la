@@ -10,7 +10,7 @@ from django.db import IntegrityError
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.translation import pgettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 from email_confirm_la import signals
 from email_confirm_la.conf import configs
@@ -51,7 +51,7 @@ class EmailConfirmationManager(models.Manager):
         try:
             confirmation = EmailConfirmation.objects.get_for_object(content_object, email_field_name)
         except EmailConfirmation.DoesNotExist:
-            unverified_email = None
+            unverified_email = ''
         else:
             unverified_email = confirmation.email
 
@@ -78,7 +78,7 @@ class EmailConfirmationManager(models.Manager):
 
 class EmailConfirmation(models.Model):
     """
-    Once an email is confirmed, it will be delete from this model. In other words, there are only unconfirmed emails in the database.
+    Once an email is confirmed, it will be delete from this table. In other words, there are only unconfirmed emails in the database.
     """
 
     ExpiredError = ExpiredError
@@ -86,18 +86,16 @@ class EmailConfirmation(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    email_field_name = models.CharField(verbose_name=_('ec_la', 'Email field name'), max_length=32, default='email')
-    email = models.EmailField(verbose_name=_('ec_la', 'Email'))
-    confirmation_key = models.CharField(verbose_name=_('ec_la', 'Confirmation_key'), max_length=64, unique=True)
+    email_field_name = models.CharField(verbose_name=_(u'Email field name'), max_length=32, default='email')
+    email = models.EmailField(verbose_name=_(u'Email'), db_index=True)
+    confirmation_key = models.CharField(verbose_name=_(u'Confirmation_key'), max_length=64, unique=True)
     send_at = models.DateTimeField(null=True, blank=True, db_index=True)
-    # confirmed_at = models.DateTimeField(null=True, blank=True)
 
     objects = EmailConfirmationManager()
 
     class Meta:
-        verbose_name = _('ec_la', 'Email confirmation')
-        verbose_name_plural = _('ec_la', 'Email confirmation')
-        unique_together = (('content_type', 'email_field_name', 'object_id', 'email'), )
+        verbose_name = _(u'Email confirmation')
+        verbose_name_plural = _(u'Email confirmation')
         unique_together = (('content_type', 'object_id', 'email_field_name'), )
 
     def __repr__(self):
@@ -107,7 +105,7 @@ class EmailConfirmation(models.Model):
         return 'Confirmation for {0}'.format(self.email)
 
     def __unicode__(self):
-        return 'Confirmation for {0}'.format(self.email)
+        return u'Confirmation for {0}'.format(self.email)
 
     def send(self, template_context=None):
         default_template_context = dict(configs.EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT)
