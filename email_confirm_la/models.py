@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -22,26 +23,25 @@ class EmailConfirmationManager(models.Manager):
 
     def verify_email_for_object(self, email, content_object, email_field_name='email'):
         """
-        Add an email for `content_object` and send a confirmation mail by default.
+        Create an email confirmation for `content_object` and send a confirmation mail.
 
         The email will be directly saved to `content_object.email_field_name` when `is_primary` and `skip_verify` both are true.
         """
 
-        content_type = ContentType.objects.get_for_model(content_object)
+        confirmation_key = generate_random_token([str(content_object.__class__.__name__), str(content_object.id), str(email_field_name), email, ])
+
         try:
-            confirmation = EmailConfirmation.objects.get(
-                content_type=content_type,
-                object_id=content_object.id,
-                email_field_name=email_field_name,
-                email=email,
-            )
-        except EmailConfirmation.DoesNotExist:
             confirmation = EmailConfirmation()
             confirmation.content_object = content_object
             confirmation.email_field_name = email_field_name
             confirmation.email = email
-            confirmation.confirmation_key = generate_random_token([str(content_type.id), str(content_object.id), str(email_field_name), email, ])
+            confirmation.confirmation_key = confirmation_key
             confirmation.save()
+        except IntegrityError:
+            confirmation = EmailConfirmation.objects.get_for_object(content_object, email_field_name)
+            confirmation.email = email
+            confirmation.confirmation_key = confirmation_key
+            confirmation.save(update_fields=['email', 'confirmation_key'])
 
         confirmation.send()
 
@@ -98,6 +98,7 @@ class EmailConfirmation(models.Model):
         verbose_name = _('ec_la', 'Email confirmation')
         verbose_name_plural = _('ec_la', 'Email confirmation')
         unique_together = (('content_type', 'email_field_name', 'object_id', 'email'), )
+        unique_together = (('content_type', 'object_id', 'email_field_name'), )
 
     def __repr__(self):
         return '<EmailConfirmation {0}>'.format(self.email)
