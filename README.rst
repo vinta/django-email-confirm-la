@@ -41,6 +41,7 @@ Add the ``email_confirm_la`` app (put it *after* your apps) and set the required
 
     EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'https'
     EMAIL_CONFIRM_LA_DOMAIN = 'vinta.ws'
+    EMAIL_CONFIRM_AUTOLOGIN = True
     EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT = {
         'THE_ANSWER': 42,
     }
