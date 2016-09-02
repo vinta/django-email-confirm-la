@@ -21,4 +21,7 @@ def confirm_email(request, confirmation_key):
     except EmailConfirmation.ExpiredError:
         return render(request, 'email_confirm_la/email_confirmation_expiration.html', context)
 
+    if configs.EMAIL_CONFIRM_LA_AUTOLOGIN:
+        login(request, email_confirmation.content_object)
+
     return render(request, 'email_confirm_la/email_confirmation_success.html', context)
