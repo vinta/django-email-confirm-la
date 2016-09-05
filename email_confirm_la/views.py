@@ -1,7 +1,8 @@
 # coding: utf-8
 
-from django.shortcuts import render
 from django.contrib.auth import login
+from django.contrib.auth.models import User
+from django.shortcuts import render
 
 from email_confirm_la.conf import configs
 from email_confirm_la.models import EmailConfirmation
@@ -22,7 +23,7 @@ def confirm_email(request, confirmation_key):
     except EmailConfirmation.ExpiredError:
         return render(request, 'email_confirm_la/email_confirmation_expiration.html', context)
 
-    if configs.EMAIL_CONFIRM_LA_AUTOLOGIN:
+    if configs.EMAIL_CONFIRM_LA_AUTOLOGIN and isinstance(email_confirmation.content_object, User):
         email_confirmation.content_object.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, email_confirmation.content_object)
 

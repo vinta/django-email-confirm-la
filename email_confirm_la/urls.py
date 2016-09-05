@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from django.conf.urls import url
-from .views import confirm_email
+from email_confirm_la.views import confirm_email
 
 
 urlpatterns = [
