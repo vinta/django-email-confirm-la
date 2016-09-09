@@ -1,6 +1,13 @@
 Changes
 =======
 
+2.3.0 (2016-09-09)
+++++++++++++++++++
+
+- Support automatically login after email confirmation via `EMAIL_CONFIRM_LA_AUTOLOGIN` setting
+- Use `uuid.uuid4()` to generate confirmation key
+
+
 2.2.0 (2016-07-25)
 ++++++++++++++++++
 
