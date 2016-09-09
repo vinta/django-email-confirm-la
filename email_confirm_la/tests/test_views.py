@@ -24,6 +24,7 @@ class ViewTest(BaseTestCase):
         url = confirmation.get_confirmation_url(full=False)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context['user'].is_authenticated())
 
         self.user_obj = User.objects.get(id=self.user_obj.id)
         self.assertEqual(self.user_obj.email, self.user_email)
@@ -97,3 +98,15 @@ class ViewTest(BaseTestCase):
         response = self.client.get(url)
 
         self.assertContains(response, 'the Answer to the Ultimate Question of Life, the Universe, and Everything: 42.')
+
+    @override_settings(EMAIL_CONFIRM_LA_AUTOLOGIN=True)
+    def test_autologin(self):
+        confirmation = EmailConfirmation.objects.verify_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+        )
+
+        url = confirmation.get_confirmation_url(full=False)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['user'].is_authenticated())
