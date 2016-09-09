@@ -187,5 +187,5 @@ Run Tests
 
     # or
 
-    $ docker build -t djecla .
-    $ docker run --rm=true djecla
+    $ docker build -t email_confirm_la .
+    $ docker run --rm=true -v `pwd`:/app email_confirm_la

@@ -12,7 +12,7 @@ RUN apt-get update && \
 RUN mkdir -p /app/
 WORKDIR /app/
 
-COPY . /app/
+COPY requirements*.txt /app/
 RUN pip install -r requirements_test.txt
 
 CMD ["coverage", "run", "setup.py", "test"]
