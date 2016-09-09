@@ -1,13 +1,9 @@
-# coding: utf-8
+# coding: utf8
 
-import hashlib
-import random
+import uuid
 
 
-def generate_random_token(factors=None, hash_func=hashlib.sha256):
-    if factors is None:
-        factors = []
+def generate_random_token():
+    token = uuid.uuid4().hex
 
-    bits = factors + [str(random.SystemRandom().getrandbits(512)), ]
-
-    return hash_func(''.join(bits).encode('utf-8')).hexdigest()
+    return token

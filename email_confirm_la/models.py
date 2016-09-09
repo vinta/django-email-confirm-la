@@ -28,7 +28,7 @@ class EmailConfirmationManager(models.Manager):
         The email will be directly saved to `content_object.email_field_name` when `is_primary` and `skip_verify` both are true.
         """
 
-        confirmation_key = generate_random_token([str(content_object.__class__.__name__), str(content_object.id), str(email_field_name), email, ])
+        confirmation_key = generate_random_token()
 
         try:
             confirmation = EmailConfirmation()
