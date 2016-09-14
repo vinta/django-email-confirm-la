@@ -42,8 +42,8 @@ class EmailConfirmationManager(models.Manager):
             confirmation.email = email
             confirmation.confirmation_key = confirmation_key
             confirmation.save(update_fields=['email', 'confirmation_key'])
-
-        confirmation.send({"hostname": hostname})
+        confirmation.hostname = hostname
+        confirmation.send()
 
         return confirmation
 
@@ -135,7 +135,7 @@ class EmailConfirmation(models.Model):
         url_reverse_name = configs.EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME
         url = reverse(url_reverse_name, kwargs={'confirmation_key': self.confirmation_key})
         if full:
-            confirmation_url = '{0}://{1}{2}'.format(configs.EMAIL_CONFIRM_LA_HTTP_PROTOCOL, configs.EMAIL_CONFIRM_LA_DOMAIN, url)
+            confirmation_url = '{0}://{1}{2}'.format(configs.EMAIL_CONFIRM_LA_HTTP_PROTOCOL, getattr(self, 'hostname', None) or configs.EMAIL_CONFIRM_LA_DOMAIN, url)
         else:
             confirmation_url = url
 
