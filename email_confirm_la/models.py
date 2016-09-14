@@ -21,7 +21,7 @@ from email_confirm_la.utils import generate_random_token
 
 class EmailConfirmationManager(models.Manager):
 
-    def verify_email_for_object(self, email, content_object, email_field_name='email'):
+    def verify_email_for_object(self, email, content_object, email_field_name='email', hostname=None):
         """
         Create an email confirmation for `content_object` and send a confirmation mail.
 
@@ -36,11 +36,13 @@ class EmailConfirmationManager(models.Manager):
             confirmation.email_field_name = email_field_name
             confirmation.email = email
             confirmation.confirmation_key = confirmation_key
+            confirmation.hostname = hostname
             confirmation.save()
         except IntegrityError:
             confirmation = EmailConfirmation.objects.get_for_object(content_object, email_field_name)
             confirmation.email = email
             confirmation.confirmation_key = confirmation_key
+            confirmation.hostname = hostname
             confirmation.save(update_fields=['email', 'confirmation_key'])
 
         confirmation.send()
