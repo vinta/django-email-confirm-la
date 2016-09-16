@@ -119,6 +119,15 @@ And you want to verify some emails:
         content_object=some_model_instance,
         email_field_name='marketing_email'
     )
+    
+or, optionally, you can set hostname from request. In case you have several domains for one project:
+
+    EmailConfirmation.objects.verify_email_for_object(
+        email='arthur.dent@therestaurantattheendoftheuniverse.com',
+        content_object=some_model_instance,
+        email_field_name='marketing_email',
+        hostname=request.get_host()
+    )
 
 Signals
 =======
