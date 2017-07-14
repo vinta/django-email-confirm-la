@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core import mail
 from django.core.management import call_command
 from django.utils import timezone
@@ -16,6 +16,7 @@ from test_app.models import YourModel
 class ManagerTest(BaseTestCase):
 
     def setUp(self):
+        User = get_user_model()
         self.user_obj = User.objects.create_user(username='kiko_mizuhara')
         self.user_obj_2 = User.objects.create_user(username='odyx')
         self.user_email = 'kiko.mizuhara@gmail.com'
@@ -86,6 +87,7 @@ class ManagerTest(BaseTestCase):
 class ModelTest(BaseTestCase):
 
     def setUp(self):
+        User = get_user_model()
         self.user_obj = User.objects.create_user(username='kiko_mizuhara')
         self.user_email = 'kiko.mizuhara@gmail.com'
         self.user_email_2 = 'kiko.mizuhara@yahoo.com'

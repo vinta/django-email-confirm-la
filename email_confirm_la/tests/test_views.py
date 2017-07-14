@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test.utils import override_settings
 
@@ -11,11 +11,13 @@ from email_confirm_la.models import EmailConfirmation
 class ViewTest(BaseTestCase):
 
     def setUp(self):
+        User = get_user_model()
         self.user_obj = User.objects.create_user(username='kiko_mizuhara')
         self.user_email = 'kiko.mizuhara@gmail.com'
         self.user_email_2 = 'kiko.mizuhara@yahoo.com'
 
     def test_confirm_email(self):
+        User = get_user_model()
         confirmation = EmailConfirmation.objects.verify_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,
@@ -59,6 +61,7 @@ class ViewTest(BaseTestCase):
 
     @override_settings(EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME='test_app:your_confirm_email')
     def test_custom_confirm_url_reverse_name(self):
+        User = get_user_model()
         confirmation = EmailConfirmation.objects.verify_email_for_object(
             email=self.user_email,
             content_object=self.user_obj,

@@ -1,14 +1,14 @@
 # coding: utf-8
 
-from django.contrib.auth import login
-from django.contrib.auth.models import User
+from django.contrib.auth import login, get_user_model
 from django.shortcuts import render
-
 from email_confirm_la.conf import configs
 from email_confirm_la.models import EmailConfirmation
 
 
 def confirm_email(request, confirmation_key):
+    User = get_user_model()
+
     try:
         email_confirmation = EmailConfirmation.objects.get(confirmation_key=confirmation_key)
     except EmailConfirmation.DoesNotExist:
