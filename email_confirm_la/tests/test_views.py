@@ -102,6 +102,17 @@ class ViewTest(BaseTestCase):
 
         self.assertContains(response, 'the Answer to the Ultimate Question of Life, the Universe, and Everything: 42.')
 
+    def test_user_added_template_context_in_email(self):
+        EmailConfirmation.objects.verify_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+            template_context={'THE_ANSWER': 'has been changed'}
+        )
+
+        mail_obj = mail.outbox[0]
+
+        self.assertIn('the Answer to the Ultimate Question of Life, the Universe, and Everything: has been changed.', mail_obj.body)
+
     @override_settings(EMAIL_CONFIRM_LA_AUTOLOGIN=True)
     def test_autologin(self):
         confirmation = EmailConfirmation.objects.verify_email_for_object(

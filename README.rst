@@ -111,13 +111,15 @@ And you want to verify some emails:
     EmailConfirmation.objects.verify_email_for_object(
         email='marvin@therestaurantattheendoftheuniverse.com',
         content_object=some_model_instance,
-        email_field_name='customer_support_email'
+        email_field_name='customer_support_email',
+        template_context={'this_is_for': 'customer support'}
     )
 
     EmailConfirmation.objects.verify_email_for_object(
         email='arthur.dent@therestaurantattheendoftheuniverse.com',
         content_object=some_model_instance,
-        email_field_name='marketing_email'
+        email_field_name='marketing_email',
+        tempalte_context={'this_is_for': 'marketing'}
     )
 
 Signals

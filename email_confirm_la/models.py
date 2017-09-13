@@ -21,7 +21,7 @@ from email_confirm_la.utils import generate_random_token
 
 class EmailConfirmationManager(models.Manager):
 
-    def verify_email_for_object(self, email, content_object, email_field_name='email'):
+    def verify_email_for_object(self, email, content_object, email_field_name='email', template_context=None):
         """
         Create an email confirmation for `content_object` and send a confirmation mail.
 
@@ -43,7 +43,7 @@ class EmailConfirmationManager(models.Manager):
             confirmation.confirmation_key = confirmation_key
             confirmation.save(update_fields=['email', 'confirmation_key'])
 
-        confirmation.send()
+        confirmation.send(template_context=template_context)
 
         return confirmation
 
