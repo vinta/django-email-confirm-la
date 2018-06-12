@@ -1,6 +1,17 @@
 Changes
 =======
 
+2.3.2 (2018-06-12)
+++++++++++++++++++
+
+- Added 'reply_to' field to email message (required if used in conjuction with Postmark)
+
+2.3.1 (2017-09-13)
+++++++++++++++++++
+
+- Updated code to conform to what the README says about using Site.objects.get_current().domain if EMAIL_CONFIRM_LA_DOMAIN isn't set
+- Added ability to send template context data when using verify_email_for_object()
+    
 2.3.0 (2016-09-09)
 ++++++++++++++++++
 

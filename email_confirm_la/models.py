@@ -121,6 +121,7 @@ class EmailConfirmation(models.Model):
         body = render_to_string('email_confirm_la/email/email_confirmation_message.html', template_context)
         message = EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, [self.email, ])
         message.content_subtype = 'html'
+        message.reply_to = message.from_email
         message.send()
 
         self.send_at = timezone.now()
