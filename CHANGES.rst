@@ -1,6 +1,12 @@
 Changes
 =======
 
+2.3.3 (2018-06-18)
+++++++++++++++++++
+
+- Updated so that if the Site table isn't available, EMAIL_CONFIRM_LA_DOMAIN is set to 'example.com'
+  (assuming it's not set to anything in settings). This happens during unit tests.
+
 2.3.2 (2018-06-12)
 ++++++++++++++++++
 
