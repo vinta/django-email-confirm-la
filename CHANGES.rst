@@ -1,6 +1,11 @@
 Changes
 =======
 
+2.3.4 (2018-06-18)
+++++++++++++++++++
+
+- Added auto generated Django migration file
+
 2.3.3 (2018-06-18)
 ++++++++++++++++++
 
