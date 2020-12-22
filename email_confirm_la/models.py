@@ -83,7 +83,7 @@ class EmailConfirmation(models.Model):
 
     ExpiredError = ExpiredError
 
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     email_field_name = models.CharField(verbose_name=_(u'Email field name'), max_length=32, default='email')
