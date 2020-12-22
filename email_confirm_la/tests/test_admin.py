@@ -3,7 +3,7 @@
 from django.contrib.admin import ModelAdmin
 from django.contrib.admin.sites import AdminSite
 
-from model_mommy import mommy
+from model_bakery import baker
 
 from .base import BaseTestCase
 from email_confirm_la.models import EmailConfirmation
@@ -25,7 +25,7 @@ request.user = MockSuperUser()
 class AdminTest(BaseTestCase):
 
     def setUp(self):
-        mommy.make(
+        baker.make(
             'email_confirm_la.EmailConfirmation',
             _quantity=1,
         )

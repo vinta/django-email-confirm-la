@@ -6,7 +6,7 @@ from django.core.management import call_command
 from django.utils import timezone
 
 from freezegun import freeze_time
-from model_mommy import mommy
+from model_bakery import baker
 
 from .base import BaseTestCase
 from email_confirm_la.models import EmailConfirmation
@@ -106,7 +106,7 @@ class ModelTest(BaseTestCase):
 class CommandTest(BaseTestCase):
 
     def test_clear_expired_email_confirmations(self):
-        mommy.make(
+        baker.make(
             'email_confirm_la.EmailConfirmation',
             _quantity=1,
             send_at=timezone.now()

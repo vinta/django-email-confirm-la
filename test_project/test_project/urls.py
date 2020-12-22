@@ -19,6 +19,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^email_confirmation/', include('email_confirm_la.urls', namespace='email_confirm_la')),
-    url(r'^test_app/', include('test_app.urls', namespace='test_app')),
+    url(r'^email_confirmation/', include(('email_confirm_la.urls', 'email_confirm_la'), namespace='email_confirm_la')),
+    url(r'^test_app/', include(('test_app.urls', 'test_app'), namespace='test_app')),
 ]

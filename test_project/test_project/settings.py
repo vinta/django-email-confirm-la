@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'email_confirm_la',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     # 'django.middleware.security.SecurityMiddleware',  # Django 1.8+ only
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

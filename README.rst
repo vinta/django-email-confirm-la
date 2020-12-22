@@ -15,8 +15,8 @@ Django email confirmation for any Model and any Field.
 Requirements
 ============
 
-- Python (2.6, 2.7, 3.3, 3.4, 3.5)
-- Django (1.5, 1.6, 1.7, 1.8, 1.9)
+- Python (3.5, 3.6, 3.7, 3.8)
+- Django (2.0, 2.1, 2.2, 3.0, 3.1)
 
 Installation
 ============
