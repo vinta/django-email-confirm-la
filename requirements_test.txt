@@ -1,4 +1,4 @@
 -r requirements.txt
 coverage
 freezegun
-model_mommy
+model-bakery==1.2.0

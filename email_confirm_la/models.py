@@ -5,13 +5,10 @@ import datetime
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage
-try:
-    from django.core.urlresolvers import reverse
-except ImportError:
-    from django.urls import reverse
 from django.db import IntegrityError
 from django.db import models
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -89,16 +86,16 @@ class EmailConfirmation(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    email_field_name = models.CharField(verbose_name=_(u'Email field name'), max_length=32, default='email')
-    email = models.EmailField(verbose_name=_(u'Email'), db_index=True)
-    confirmation_key = models.CharField(verbose_name=_(u'Confirmation_key'), max_length=64, unique=True)
+    email_field_name = models.CharField(verbose_name=_('Email field name'), max_length=32, default='email')
+    email = models.EmailField(verbose_name=_('Email'), db_index=True)
+    confirmation_key = models.CharField(verbose_name=_('Confirmation_key'), max_length=64, unique=True)
     send_at = models.DateTimeField(null=True, blank=True, db_index=True)
 
     objects = EmailConfirmationManager()
 
     class Meta:
-        verbose_name = _(u'Email confirmation')
-        verbose_name_plural = _(u'Email confirmation')
+        verbose_name = _('Email confirmation')
+        verbose_name_plural = _('Email confirmation')
         unique_together = (('content_type', 'object_id', 'email_field_name'), )
 
     def __repr__(self):
@@ -106,9 +103,6 @@ class EmailConfirmation(models.Model):
 
     def __str__(self):
         return 'Confirmation for {0}'.format(self.email)
-
-    def __unicode__(self):
-        return u'Confirmation for {0}'.format(self.email)
 
     def send(self, template_context=None):
         default_template_context = dict(configs.EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT)
