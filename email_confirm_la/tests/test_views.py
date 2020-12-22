@@ -26,7 +26,7 @@ class ViewTest(BaseTestCase):
         url = confirmation.get_confirmation_url(full=False)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['user'].is_authenticated())
+        self.assertFalse(response.context['user'].is_authenticated)
 
         self.user_obj = User.objects.get(id=self.user_obj.id)
         self.assertEqual(self.user_obj.email, self.user_email)
@@ -112,4 +112,4 @@ class ViewTest(BaseTestCase):
         url = confirmation.get_confirmation_url(full=False)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context['user'].is_authenticated())
+        self.assertTrue(response.context['user'].is_authenticated)
