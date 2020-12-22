@@ -5,7 +5,10 @@ import datetime
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 from django.db import IntegrityError
 from django.db import models
 from django.template.loader import render_to_string
