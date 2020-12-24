@@ -1,6 +1,6 @@
 # coding: utf-8
 
-VERSION = (2, 3, 1)
+VERSION = (2, 3, 4)
 
 
 def get_version():

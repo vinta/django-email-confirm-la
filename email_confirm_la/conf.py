@@ -1,12 +1,18 @@
 # coding: utf-8
 
 from django.conf import settings
+from django.contrib.sites.models import Site
+from django.core.exceptions import ImproperlyConfigured
+from django.db.utils import OperationalError
 
 
 class DefaultConfigs(object):
 
     EMAIL_CONFIRM_LA_HTTP_PROTOCOL = 'http'
-    EMAIL_CONFIRM_LA_DOMAIN = 'example.com'
+    try:
+        EMAIL_CONFIRM_LA_DOMAIN = Site.objects.get_current().domain
+    except (ImproperlyConfigured, OperationalError):
+        EMAIL_CONFIRM_LA_DOMAIN = 'example.com'
     EMAIL_CONFIRM_LA_CONFIRM_EXPIRE_SEC = 60 * 60 * 24 * 1  # 1 day
     EMAIL_CONFIRM_LA_CONFIRM_URL_REVERSE_NAME = 'email_confirm_la:confirm_email'
     EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT = {}

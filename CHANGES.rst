@@ -1,6 +1,28 @@
 Changes
 =======
 
+2.3.4 (2018-06-18)
+++++++++++++++++++
+
+- Added auto generated Django migration file
+
+2.3.3 (2018-06-18)
+++++++++++++++++++
+
+- Updated so that if the Site table isn't available, EMAIL_CONFIRM_LA_DOMAIN is set to 'example.com'
+  (assuming it's not set to anything in settings). This happens during unit tests.
+
+2.3.2 (2018-06-12)
+++++++++++++++++++
+
+- Added 'reply_to' field to email message (required if used in conjuction with Postmark)
+
+2.3.1 (2017-09-13)
+++++++++++++++++++
+
+- Updated code to conform to what the README says about using Site.objects.get_current().domain if EMAIL_CONFIRM_LA_DOMAIN isn't set
+- Added ability to send template context data when using verify_email_for_object()
+    
 2.3.0 (2016-09-09)
 ++++++++++++++++++
 

@@ -5,6 +5,7 @@ from django.core import mail
 from django.test.utils import override_settings
 
 from .base import BaseTestCase
+from email_confirm_la.conf import configs
 from email_confirm_la.models import EmailConfirmation
 
 
@@ -47,6 +48,32 @@ class ViewTest(BaseTestCase):
             response,
             'email_confirm_la/email_confirmation_fail.html'
         )
+
+    def test_default_domain(self):
+        EmailConfirmation.objects.verify_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+        )
+
+        mail_obj = mail.outbox[0]
+
+        self.assertIn('http://example.com/', mail_obj.body)
+
+    @override_settings(SITE_ID=2)
+    def test_default_domain_using_sites(self):
+        from django.contrib.sites.models import Site
+
+        site = Site.objects.create(domain='mydomain.xyz')
+        configs.EMAIL_CONFIRM_LA_DOMAIN = Site.objects.get_current().domain
+
+        EmailConfirmation.objects.verify_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+        )
+
+        mail_obj = mail.outbox[0]
+
+        self.assertIn('http://mydomain.xyz/', mail_obj.body)
 
     @override_settings(EMAIL_CONFIRM_LA_HTTP_PROTOCOL='https', EMAIL_CONFIRM_LA_DOMAIN='vinta.ws')
     def test_custom_domain(self):
@@ -101,6 +128,17 @@ class ViewTest(BaseTestCase):
         response = self.client.get(url)
 
         self.assertContains(response, 'the Answer to the Ultimate Question of Life, the Universe, and Everything: 42.')
+
+    def test_user_added_template_context_in_email(self):
+        EmailConfirmation.objects.verify_email_for_object(
+            email=self.user_email,
+            content_object=self.user_obj,
+            template_context={'THE_ANSWER': 'has been changed'}
+        )
+
+        mail_obj = mail.outbox[0]
+
+        self.assertIn('the Answer to the Ultimate Question of Life, the Universe, and Everything: has been changed.', mail_obj.body)
 
     @override_settings(EMAIL_CONFIRM_LA_AUTOLOGIN=True)
     def test_autologin(self):
