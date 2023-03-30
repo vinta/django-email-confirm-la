@@ -1,12 +1,6 @@
 django-email-confirm-la
 =======================
 
-.. image:: http://img.shields.io/travis/vinta/django-email-confirm-la/master.svg?style=flat-square
-    :target: https://travis-ci.org/vinta/django-email-confirm-la
-
-.. image:: https://img.shields.io/coveralls/vinta/django-email-confirm-la/master.svg?style=flat-square
-    :target: https://coveralls.io/github/vinta/django-email-confirm-la
-
 .. image:: http://img.shields.io/pypi/v/django-email-confirm-la.svg?style=flat-square
     :target: https://pypi.python.org/pypi/django-email-confirm-la
 
