@@ -33,7 +33,7 @@ setup(
     version=version,
     description='Django email confirmation for any Model and any Field.',
     long_description=long_description,
-    keywords=('django', 'email', 'mail', 'confirm', 'confirmation', 'content type'),
+    keywords=['django', 'email', 'mail', 'confirm', 'confirmation', 'content type'],
     author='Vinta Chen',
     author_email='vinta.chen@gmail.com',
     url='https://github.com/vinta/django-email-confirm-la',
@@ -43,7 +43,7 @@ setup(
     packages=find_packages(exclude=['test_project.*', 'test_project']),
     test_suite='run_tests.main',
     zip_safe=False,
-    classifiers=(
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -61,5 +61,5 @@ setup(
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',
-    ),
+    ],
 )

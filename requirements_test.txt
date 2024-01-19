@@ -1,4 +1,4 @@
 -r requirements.txt
 coverage
 freezegun
-model-bakery==1.2.0
+model-bakery==1.5.0
