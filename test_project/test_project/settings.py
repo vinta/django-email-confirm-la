@@ -129,3 +129,6 @@ STATIC_URL = '/static/'
 EMAIL_CONFIRM_LA_TEMPLATE_CONTEXT = {
     'THE_ANSWER': 42,
 }
+
+# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
